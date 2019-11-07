@@ -32,7 +32,7 @@ class DynamicArray {
 	inline void twice_max() { this->max != 0 ? this->max *= 2: this->max = 1; }
 	long current;
 	long max;
-	T* array_pointer;
+	
 
 protected:
 	
@@ -53,6 +53,7 @@ public:
 	{
 		
 	};
+	T* array_pointer;
 
 	void add(T val) 
 	{
@@ -87,22 +88,30 @@ public:
 		else return get_element(pos);
 	}
 
-	T pop_back(void)
+	T& pop_back(void)
 	{
-		if (this->array_pointer == NULL)
+		if (this->array_pointer == NULL || this->current == 0)
 		{
 			throw DynamicArray_exceptions(1);
 		}
 		else
 		{
 			this->current--;
-			return this->array_pointer[current+1];
+			return *(this->array_pointer+current);
 		}
 	}
 
-	void print(void (*funkcja) (const T  a),long dlugosc = current)
+	void print(void (*funkcja) (T const ))
 	{
-		for (long i = 0; i < dlugosc; i++)
+		for (long i = 0; i < this->current; i++)
+		{
+			funkcja(this->array_pointer[i]);
+		}
+	};
+	void print(void (*funkcja) (T const),long dlg)
+	{
+		if (this->current < dlg) dlg = this->current;
+		for (long i = 0; i < dlg; i++)
 		{
 			funkcja(this->array_pointer[i]);
 		}
@@ -115,6 +124,8 @@ public:
 	{
 		delete[] this->array_pointer;
 		this->array_pointer = NULL;
+		this->current = 0;
+		this->max = 1;
 	}
 	void erase_ptr(void)
 	{
@@ -124,7 +135,9 @@ public:
 		}
 		delete[] this->array_pointer;
 		this->array_pointer = NULL;
+		this->current = 0;
+		this->max = 1;
 	}
 
-	~DynamicArray() { if (array_pointer != NULL) { delete[] array_pointer; } }
+	~DynamicArray() {};
 };

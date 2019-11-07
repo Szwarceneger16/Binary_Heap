@@ -1,6 +1,10 @@
 #pragma once
 #include "DynamicArray.h"
 #include <algorithm>
+#include <iostream>
+
+//#define DEBUG
+
 
 template <class T>
 class heap :
@@ -28,40 +32,69 @@ public:
 		}
 	}
 
-	T take_head(bool (*fun)(T const, T const))
+	T pop(bool (*fun)(T const, T const))
 	{
 		T tmp = this->get_element(0);
-		this->get_pointer(0) = this->get_pointer(this->get_current());
+		try
+		{
+			this->get_element(0) = this->pop_back();
+		}
+		catch (const DynamicArray_exceptions& e)
+		{
+			throw e;
+		}
+		
 		auto cur = this->get_current();
 
 		long lc = 0, rc = 0, max = 0,max_prev = 0;
+		lc = 2 * max + 1; rc = 2 * max + 2;
 		
-		while (max < cur)
+		while (rc < cur)
 		{
-			max_prev = max;
-			lc = 2 * max + 1; rc = 2 * max + 2;
+#ifdef DEBUG
+			this->print(printer);
+			std::cout << std::endl;
+#endif // DEBUG
 			fun(this->get_element(lc), this->get_element(rc)) ? max = rc : max = lc;
-
 			if (fun(this->get_element(max_prev), this->get_element(max)))
 			{
 				std::iter_swap(this->get_pointer(max), this->get_pointer(max_prev));
 			}
 			else break;
+			max_prev = max;
+			lc = 2 * max + 1; rc = 2 * max + 2;
+
+		}
+
+		if (lc < cur)
+		{
+			if (fun(this->get_element(max_prev), this->get_element(lc)))
+			{
+				std::iter_swap(this->get_pointer(max), this->get_pointer(max_prev));
+			}
 		}
 
 		return tmp;
 	}
 
-
-
-	void print(void (*fun)(T const))
+	void erase_(void)
 	{
-		auto act = this->get_current();
-		for (long i = 0; i < act; i++)
-		{
-			fun(this->get_element(i));
-		}
+		this->erase();
 	}
-	
+
+	void erase_ptr_(void)
+	{
+		this->erase_ptr();
+	}
+
+	void print_(void (*fun)(T const))
+	{
+		this->print(fun);
+	}
+	void print_(void (*fun)(T const),long dlg)
+	{
+		this->print(fun,dlg);
+	}
+
 };
 
