@@ -49,7 +49,7 @@ int main()
 	//moj.erase_();
 
 
-	const int MAX_ORDER = 7;
+	const int MAX_ORDER = 4;
 	heap<int> heapp;
 	clock_t t1, t2;
 	srand(NULL);
@@ -67,7 +67,7 @@ int main()
 		}
 		t2 = clock();
 
-		heapp.print_(printer, 4);
+		heapp.print(printer, 4);
 		std::cout << std::endl << "  Czas dodawania: " << (double(t2) - double(t1)) / CLOCKS_PER_SEC << std::endl;
 
 		t1 = clock();
@@ -76,9 +76,9 @@ int main()
 			heapp.pop(cmp2);
 		}
 		t2 = clock();
-		heapp.print_(printer, 2);
+		heapp.print(printer, 4);
 		std::cout << std::endl << "  Czas pobierania: " << (double(t2) - double(t1)) / CLOCKS_PER_SEC << std::endl;
-		heapp.erase_();
+		heapp.erase();
 		std::cout << "----------------------------------------------------------" << std::endl;
 	}
 	return 0;

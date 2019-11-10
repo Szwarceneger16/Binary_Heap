@@ -77,23 +77,23 @@ public:
 		return tmp;
 	}
 
-	void erase_(void)
+	void erase(void)
 	{
-		this->erase();
+		DynamicArray<T>::erase();
 	}
 
-	void erase_ptr_(void)
+	void erase_ptr(void)
 	{
-		this->erase_ptr();
+		DynamicArray<T>::erase_ptr();
 	}
 
-	void print_(void (*fun)(T const))
+	void print(void (*fun)(T const))
 	{
-		this->print(fun);
+		DynamicArray<T>::print(fun);
 	}
-	void print_(void (*fun)(T const),long dlg)
+	void print(void (*fun)(T const),long dlg)
 	{
-		this->print(fun,dlg);
+		DynamicArray<T>::print(fun, dlg);
 	}
 
 };
